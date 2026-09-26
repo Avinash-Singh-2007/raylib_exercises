@@ -1,92 +1,42 @@
-const math = require("./math");
 const geometry = require("./geometry");
 const r = require("raylib");
-
-const windowWidth = 700;
-const windowHieght = 500;
-
-const outerRectangleWidth = 200;
-const outerRectangleheight = 150;
-
-const outerRectangleCoordinateX = 150;
-const outerRectangleCoordinateY = 150;
-
-const innerRectanglewidth = 150;
-const innerRectangleHeight = 100;
-
-let innerRectangleCoordinateX;
-let innerRectangleCoordinateY;
-
-let windowWidthForInnerRectangle = geometry.windowForInnerRectangle(
-    outerRectangleWidth,
-    outerRectangleCoordinateX,
-);
-
-let windowHeightForInnerRectangle = geometry.windowForInnerRectangle(
-    outerRectangleheight,
-    outerRectangleCoordinateY,
-);
-
-function makeInnerRectangleInCenter(
-    windowWidth,
-    windowHieght,
-    rectangleWidth,
-    rectangleHeight,
-) {
-    const windowWidthHalf = math.divideInHalf(windowWidth);
-    const windowHieghtHalf = math.divideInHalf(windowHieght);
-
-    const rectangleWidthHalf = math.divideInHalf(rectangleWidth);
-    const rectangleHeightHalf = math.divideInHalf(rectangleHeight);
-
-    innerRectangleCoordinateX = geometry.calCoordinate(
-        windowWidthHalf,
-        rectangleWidthHalf,
-    );
-    innerRectangleCoordinateY = geometry.calCoordinate(
-        windowHieghtHalf,
-        rectangleHeightHalf,
-    );
-}
 
 function running() {
     return !r.WindowShouldClose();
 }
 
 function setup() {
-    r.InitWindow(windowWidth, windowHieght, "program_2");
+    const screenWidth = 700;
+    const screenHeight = 500;
+
+    r.InitWindow(screenWidth, screenHeight, "center_rectangle_in_rectangle");
     r.SetTargetFPS(50);
 }
 
-function update() {
-    makeInnerRectangleInCenter(
-        windowWidthForInnerRectangle,
-        windowHeightForInnerRectangle,
-        innerRectanglewidth,
-        innerRectangleHeight,
-        r.RED,
-    );
-}
+function update() { }
 
 function draw() {
     r.BeginDrawing();
     r.ClearBackground(r.BLUE);
 
-    r.DrawRectangle(
-        outerRectangleCoordinateX,
-        outerRectangleCoordinateY,
-        outerRectangleWidth,
-        outerRectangleheight,
-        r.RED,
-    );
+    const outerRectWidth = 200;
+    const outerRectHeight = 150;
 
-    r.DrawRectangle(
-        innerRectangleCoordinateX,
-        innerRectangleCoordinateY,
-        innerRectanglewidth,
-        innerRectangleHeight,
-        r.WHITE,
-    );
+    const outerRectX = 400;
+    const outerRectY = 150;
+
+    const innerRectWidth = 150;
+    const innerRectHeight = 100;
+
+    const screenWidthForInnerRect = geometry.screenForInnerRect(outerRectWidth, outerRectX,);
+    const screenHeightForInnerRect = geometry.screenForInnerRect(outerRectHeight, outerRectY,);
+
+    const innerRectX = geometry.caloffset(screenWidthForInnerRect, innerRectWidth,);
+    const innerRectY = geometry.caloffset(screenHeightForInnerRect, innerRectHeight,);
+
+    r.DrawRectangle(outerRectX, outerRectY, outerRectWidth, outerRectHeight, r.RED,);
+
+    r.DrawRectangle(innerRectX, innerRectY, innerRectWidth, innerRectHeight, r.WHITE,);
 
     r.EndDrawing();
 }

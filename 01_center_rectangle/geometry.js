@@ -1,7 +1,7 @@
-function calCoordinate(windowHalf, rectangleHalf) {
-    return windowHalf - rectangleHalf;
+function caloffset(outer, inner) {
+    return (outer / 2) - (inner / 2);
 }
 
 module.exports = {
-    calCoordinate,
+    caloffset,
 }

@@ -1,96 +1,42 @@
-const math = require("./math");
 const geometry = require("./geometry");
 const r = require("raylib");
-
-const windowWidth = 700;
-const windowHieght = 500;
-
-const outerRectangleWidth = 200;
-const outerRectangleHeight = 150;
-
-const outerRectangleCoordinateX = 150;
-const outerRectangleCoordinateY = 150;
-
-const innerRectangleWidth = rectangleDimension(outerRectangleWidth, 0.5);
-const innerRectangleHeight = rectangleDimension(outerRectangleHeight, 0.5);
-
-let innerRectangleCoordinateX;
-let innerRectangleCoordinateY;
-
-let windowWidthForInnerRectangle = geometry.windowForInnerRectangle(
-    outerRectangleWidth,
-    outerRectangleCoordinateX,
-);
-
-let windowHeightForInnerRectangle = geometry.windowForInnerRectangle(
-    outerRectangleHeight,
-    outerRectangleCoordinateY,
-);
-
-function rectangleDimension(outerRectangleDimension, percentageOfDimension) {
-    return outerRectangleDimension * percentageOfDimension;
-}
-
-function makeInnerRectangleInCenter(
-    windowWidth,
-    windowHieght,
-    rectangleWidth,
-    rectangleHeight,
-) {
-    const windowWidthHalf = math.divideInHalf(windowWidth);
-    const windowHieghtHalf = math.divideInHalf(windowHieght);
-
-    const rectangleWidthHalf = math.divideInHalf(rectangleWidth);
-    const rectangleHeightHalf = math.divideInHalf(rectangleHeight);
-
-    innerRectangleCoordinateX = geometry.calCoordinate(
-        windowWidthHalf,
-        rectangleWidthHalf,
-    );
-    innerRectangleCoordinateY = geometry.calCoordinate(
-        windowHieghtHalf,
-        rectangleHeightHalf,
-    );
-}
 
 function running() {
     return !r.WindowShouldClose();
 }
 
 function setup() {
-    r.InitWindow(windowWidth, windowHieght, "program_2");
+    const screenWidth = 700;
+    const screenHeight = 500;
+
+    r.InitWindow(screenWidth, screenHeight, "scale_and_center");
     r.SetTargetFPS(50);
 }
 
-function update() {
-    makeInnerRectangleInCenter(
-        windowWidthForInnerRectangle,
-        windowHeightForInnerRectangle,
-        innerRectangleWidth,
-        innerRectangleHeight,
-        r.RED,
-    );
-}
+function update() { }
 
 function draw() {
     r.BeginDrawing();
     r.ClearBackground(r.BLUE);
 
-    r.DrawRectangle(
-        outerRectangleCoordinateX,
-        outerRectangleCoordinateY,
-        outerRectangleWidth,
-        outerRectangleHeight,
-        r.RED,
-    );
+    const outerRectWidth = 200;
+    const outerRectHeight = 150;
 
-    r.DrawRectangle(
-        innerRectangleCoordinateX,
-        innerRectangleCoordinateY,
-        innerRectangleWidth,
-        innerRectangleHeight,
-        r.WHITE,
-    );
+    const outerRectX = 400;
+    const outerRectY = 150;
+
+    const innerRectWidth = geometry.innerRectDimension(outerRectWidth, 0.5);
+    const innerRectHeight = geometry.innerRectDimension(outerRectHeight, 0.5);
+
+    const screenWidthForInnerRect = geometry.screenForInnerRect(outerRectWidth, outerRectX,);
+    const screenHeightForInnerRect = geometry.screenForInnerRect(outerRectHeight, outerRectY,);
+
+    const innerRectX = geometry.caloffset(screenWidthForInnerRect, innerRectWidth,);
+    const innerRectY = geometry.caloffset(screenHeightForInnerRect, innerRectHeight,);
+
+    r.DrawRectangle(outerRectX, outerRectY, outerRectWidth, outerRectHeight, r.RED,);
+
+    r.DrawRectangle(innerRectX, innerRectY, innerRectWidth, innerRectHeight, r.WHITE,);
 
     r.EndDrawing();
 }
@@ -106,5 +52,4 @@ module.exports = {
     draw,
     tearDown,
 }
-
 

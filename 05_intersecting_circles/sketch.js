@@ -1,70 +1,55 @@
 const r = require("raylib");
-const math = require("./math");
 const geometry = require("./geometry");
 
-const windowWidth = 800;
-const windowHeight = 600;
-
-const circle1radius = 50;
-const circle1xCoordinate = 350;
-const circle1yCoordinate = 200;
-
-const circle2radius = 150;
-const circle2xCoordinate = 200;
-const circle2yCoordinate = 250;
-
-let isCircleIntersecting;
-let color;
-
 function setup() {
-    r.InitWindow(windowWidth, windowHeight, "Program_5");
+    const windowWidth = 800;
+    const windowHeight = 600;
+
+    r.InitWindow(windowWidth, windowHeight, "intersecting_circle");
     r.SetTargetFPS(50);
 }
 
-function isIntersecting() {
-    const sumOfRadius = circle1radius + circle2radius;
-
-    const distance = geometry.cartesianDistance(circle1xCoordinate, circle2xCoordinate, circle1yCoordinate, circle2yCoordinate);
+function isIntersecting(c1Radius, c2Radius, c1X, c1Y, c2X, c2Y) {
+    const sumOfRadius = c1Radius + c2Radius;
+    const distance = geometry.cartesianDistance(c1X, c1Y, c2X, c2Y);
 
     return sumOfRadius > distance;
 }
 
-function update() {
-    isCircleIntersecting = isIntersecting();
-    color = isCircleIntersecting ? r.RED : r.BLACK;
+function running() {
+    return !r.WindowShouldClose();
 }
+
+function update() { }
 
 function draw() {
     r.BeginDrawing();
     r.ClearBackground(r.WHITE);
 
-    r.DrawCircle(
-        circle1xCoordinate,
-        circle1yCoordinate,
-        circle1radius,
-        color
-    );
+    const c1Radius = 50;
+    const c1X = 250;
+    const c1Y = 200;
 
-    r.DrawCircle(
-        circle2xCoordinate,
-        circle2yCoordinate,
-        circle2radius,
-        color
-    );
+    const c2Radius = 60;
+    const c2X = 200;
+    const c2Y = 250;
+
+    const color = isIntersecting(c1Radius, c2Radius, c1X, c1Y, c2X, c2Y) ? r.RED : r.BLACK;
+
+    r.DrawCircle(c1X, c1Y, c1Radius, color);
+    r.DrawCircle(c2X, c2Y, c2Radius, color);
 
     r.EndDrawing();
 }
 
-function loop() {
-    while (!r.WindowShouldClose()) {
-        update();
-        draw();
-    }
+function tearDown() {
+    r.CloseWindow();
 }
 
-function main() {
-    setup();
-    loop();
+module.exports = {
+    running,
+    setup,
+    update,
+    draw,
+    tearDown,
 }
-
-main();

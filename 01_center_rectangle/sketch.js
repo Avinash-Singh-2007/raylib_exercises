@@ -1,68 +1,31 @@
-const math = require("./math");
 const geometry = require("./geometry")
-
 const r = require("raylib");
 
-const windowWidth = 700;
-const windowHieght = 500;
-
-const rectangleWidth = 200;
-const rectangleHeight = 150;
-
-let rectangleCoordinateX;
-let rectangleCoordinateY;
-
-function makeRectangleInCenter(
-    windowWidth,
-    windowHieght,
-    rectangleWidth,
-    rectangleHeight,
-) {
-    const windowWidthHalf = math.divideInHalf(windowWidth);
-    const windowHieghtHalf = math.divideInHalf(windowHieght);
-
-    const rectangleWidthHalf = math.divideInHalf(rectangleWidth);
-    const rectangleHeightHalf = math.divideInHalf(rectangleHeight);
-
-    rectangleCoordinateX = geometry.calCoordinate(
-        windowWidthHalf,
-        rectangleWidthHalf,
-    );
-    rectangleCoordinateY = geometry.calCoordinate(
-        windowHieghtHalf,
-        rectangleHeightHalf,
-    );
-}
+const screenWidth = 700;
+const screenHeight = 500;
 
 function running() {
     return !r.WindowShouldClose();
 }
 
 function setup() {
-    r.InitWindow(windowWidth, windowHieght, "program_1");
+    r.InitWindow(screenWidth, screenHeight, "center_rectangle");
     r.SetTargetFPS(50);
 }
 
-function update() {
-    makeRectangleInCenter(
-        windowWidth,
-        windowHieght,
-        rectangleWidth,
-        rectangleHeight,
-    );
-}
+function update() { }
 
 function draw() {
     r.BeginDrawing();
     r.ClearBackground(r.BLUE);
 
-    r.DrawRectangle(
-        rectangleCoordinateX,
-        rectangleCoordinateY,
-        rectangleWidth,
-        rectangleHeight,
-        r.WHITE,
-    );
+    const rectWidth = 200;
+    const rectHeight = 150;
+
+    const rectX = geometry.caloffset(screenWidth, rectWidth);
+    const rectY = geometry.caloffset(screenHeight, rectHeight);
+
+    r.DrawRectangle(rectX, rectY, rectWidth, rectHeight, r.WHITE,);
 
     r.EndDrawing();
 }

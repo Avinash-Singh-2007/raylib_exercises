@@ -1,15 +1,12 @@
-function calCoordinate(windowHalf, rectangleHalf) {
-    return windowHalf - rectangleHalf;
+function screenForInnerRect(outerRectDimension, outerRectCoordinate,) {
+    return outerRectDimension + outerRectCoordinate * 2;
 }
 
-function windowForInnerRectangle(
-    outerRectangleDimension,
-    outerRectangleCoordinate,
-) {
-    return outerRectangleDimension + outerRectangleCoordinate * 2;
+function caloffset(outer, inner) {
+    return (outer / 2) - (inner / 2);
 }
 
 module.exports = {
-    calCoordinate,
-    windowForInnerRectangle,
+    caloffset,
+    screenForInnerRect,
 }
